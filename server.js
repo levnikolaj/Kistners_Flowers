@@ -7,7 +7,7 @@
 var http = require('http');
 var fs = require('fs');
 var recipes = require('./src/recipes');
-var serve404 = require('./src/serve404');
+var serve404 = require('./src/serve-404');
 
 /* global variables */
 var port = 2000;
@@ -15,11 +15,7 @@ var port = 2000;
 /* prints the requested number of flower recipes from ./data/recipes.json */
 // console.log(recipes.featured(10));
 
-var homepage = fs.readFileSync('Kistners_HomePage.html', function(err, html){
-  if(err){
-    console.error(err);
-  }
-});
+var homepage = fs.readFileSync('Kistners_HomePage.html', {encoding: "utf-8"});
 
 var stylesheet = fs.readFileSync("public/css/Kistners_CSS_Template.css", function(err, html){
   if(err){
@@ -52,19 +48,19 @@ function serveCachedStylesheet(req, res){
 
 function serveCachedHomepage(req, res){
   res.setHeader('Content-Type', 'text/html');
-  res.end(homepage);
+  res.end(homepage.replace('%1', generateCardHTML()));
 }
 
 function serveImage(filename, req, res){
   fs.readFile('public/img/' + filename, function(err, data){
     if(err){
-      serve404.serve404();
-      /*
+      //serve404(req,res);
+
       res.statusCode = 404;
       res.statusMessage = "Not Found";
       res.end("Not Found");
       return;
-      */
+
     }
     res.setHeader("Content-Type", "image/jpeg");
     res.end(data);
@@ -73,5 +69,11 @@ function serveImage(filename, req, res){
 
 function generateCardHTML(){
   var allFlowers = recipes.featured(10);
-  
+  return allFlowers.map(function(data) {
+    return `<div class="flower_box">
+              <img class="flower" src="${data["images"][0]}" alt="some_flower">
+              <p class="flower">${data.name}</p>
+              <p class="flower">${data.price}</p>
+            </div>`;
+  }).join('');
 }
