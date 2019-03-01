@@ -91,3 +91,42 @@ body{
   background-color: black;
   color: #C9B66F;
 }
+
+.promitions{
+  text-align: center;
+  font-size: 120%;
+}
+
+.flower_display{
+
+}
+
+.flower_box{
+  background-color: white;
+  margin: 10px;
+  border-style: outset;
+  display: inline-block;
+  border-width: thick;
+  border-radius: 10px;
+  border-color: #83052B;
+  transition: transform .2s;
+}
+
+.flower_box:hover{
+  transform: scale(1.1);
+}
+
+img.flower{
+  width: 50%;
+  float: left;
+  height: auto;
+  border-radius: 25%;
+  text-align: center;
+}
+
+p.flower{
+  font-size: 120%;
+  font-style: Vivaldi;
+  margin: 2px;
+  text-align: center;
+}

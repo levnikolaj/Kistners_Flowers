@@ -16,12 +16,8 @@ var port = 2000;
 // console.log(recipes.featured(10));
 
 var homepage = fs.readFileSync('Kistners_HomePage.html', {encoding: "utf-8"});
-
-var stylesheet = fs.readFileSync("public/css/Kistners_CSS_Template.css", function(err, html){
-  if(err){
-    console.error(err);
-  }
-});
+var stylesheet = fs.readFileSync("public/css/Kistners_CSS_Template.css");
+var wedding = fs.readFileSync("src/Wedding_Page.html");
 
 var server = http.createServer(function(req, res){
   switch(req.url){
@@ -32,6 +28,9 @@ var server = http.createServer(function(req, res){
     case '/Kistners_CSS_Template.css':
       serveCachedStylesheet(req, res);
       break;
+    case '/Wedding_Page.html':
+      res.setHeader('Content-Type', 'text/html');
+      res.end(wedding);
     default:
       serveImage(req.url, req, res);
   }
@@ -48,7 +47,9 @@ function serveCachedStylesheet(req, res){
 
 function serveCachedHomepage(req, res){
   res.setHeader('Content-Type', 'text/html');
-  res.end(homepage.replace('%1', generateCardHTML()));
+  var temp_homepage = homepage.replace('%1', generateCardHTML(0,3));
+  temp_homepage = temp_homepage.replace('%2', generateCardHTML(3,6));
+  res.end(temp_homepage);
 }
 
 function serveImage(filename, req, res){
@@ -67,9 +68,9 @@ function serveImage(filename, req, res){
   });
 }
 
-function generateCardHTML(){
+function generateCardHTML(first, second){
   var allFlowers = recipes.featured(10);
-  return allFlowers.map(function(data) {
+  return allFlowers.slice(first, second).map(function(data) {
     return `<div class="flower_box">
               <img class="flower" src="${data["images"][0]}" alt="some_flower">
               <p class="flower">${data.name}</p>
