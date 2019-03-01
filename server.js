@@ -17,7 +17,9 @@ var port = 2000;
 
 var homepage = fs.readFileSync('Kistners_HomePage.html', {encoding: "utf-8"});
 var stylesheet = fs.readFileSync("public/css/Kistners_CSS_Template.css");
-var wedding = fs.readFileSync("src/Wedding_Page.html");
+var wedding = fs.readFileSync("src/Wedding_Page.html", {encoding: "utf-8"});
+var birthday = fs.readFileSync("src/Birthday_Page.html", {encoding: "utf-8"});
+var about_us = fs.readFileSync("src/AboutUs_Page.html", {encoding: "utf-8"});
 
 var server = http.createServer(function(req, res){
   switch(req.url){
@@ -30,7 +32,16 @@ var server = http.createServer(function(req, res){
       break;
     case '/Wedding_Page.html':
       res.setHeader('Content-Type', 'text/html');
-      res.end(wedding);
+      res.end(wedding.replace('%1', generateCardHTML(6,9)));
+      break;
+    case '/Birthday_Page.html':
+      res.setHeader('Content-Type', 'text/html');
+      res.end(birthday.replace('%1', generateCardHTML(1,4)));
+      break;
+    case '/AboutUs_Page.html':
+      res.setHeader('Content-Type', 'text/html');
+      res.end();
+      break;
     default:
       serveImage(req.url, req, res);
   }
