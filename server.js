@@ -40,7 +40,7 @@ var server = http.createServer(function(req, res){
       break;
     case '/AboutUs_Page.html':
       res.setHeader('Content-Type', 'text/html');
-      res.end();
+      res.end(about_us);
       break;
     default:
       serveImage(req.url, req, res);
