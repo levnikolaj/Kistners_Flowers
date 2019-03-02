@@ -1,4 +1,3 @@
-
 /** @function serve404
  * Helper function for serving 404 error code
  * @param {http.IncomingRequest} req - the request object
