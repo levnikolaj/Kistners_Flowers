@@ -19,6 +19,7 @@ var about_us = fs.readFileSync("src/AboutUs_Page.html", {encoding: "utf-8"});
 var daily_exp = fs.readFileSync("src/DailyExpression_Page.html", {encoding: "utf-8"});
 var gardner = fs.readFileSync("src/GardenParadise_Page.html", {encoding: "utf-8"});
 var new_baby = fs.readFileSync("src/NewBaby_Page.html", {encoding: "utf-8"});
+var sympathy = fs.readFileSync("src/Sympathy_Page.html", {encoding: "utf-8"});
 
 /* Creates the server. Will respond to incoming requests. */
 var server = http.createServer(function(req, res){
@@ -42,13 +43,17 @@ var server = http.createServer(function(req, res){
       res.setHeader('Content-Type', 'text/html');
       res.end(about_us);
       break;
+    case '/Sympathy_Page.html':
+      res.setHeader('Content-Type', 'text/html');
+      res.end(sympathy.replace('%1', generateCardHTML(0,10)));
+      break;
     case '/DailyExpression_Page.html':
       res.setHeader('Content-Type', 'text/html');
-      res.end(daily_exp);
+      res.end(daily_exp.replace('%1', generateCardHTML(0,10)));
       break;
     case '/GardenParadise_Page.html':
       res.setHeader('Content-Type', 'text/html');
-      res.end(gardner);
+      res.end(gardner.replace('%1', generateCardHTML(0,10)));
       break;
     case '/NewBaby_Page.html':
       res.setHeader('Content-Type', 'text/html');
